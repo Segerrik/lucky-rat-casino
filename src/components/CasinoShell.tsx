@@ -15,12 +15,10 @@ import {
 
 const NAV_ITEMS = [
   { icon: '🎰', label: 'Casino', href: '/' },
-  { icon: '⚽', label: 'Sports', href: '#' },
   { icon: '🎮', label: 'Live Casino', href: '#' },
   { icon: '🎁', label: 'Promotions', href: '#' },
   { icon: '👑', label: 'VIP Club', href: '/vip' },
   { icon: '🎯', label: 'Missions', href: '#' },
-  { icon: '🏆', label: 'Leaderboard', href: '#' },
   { icon: '💼', label: 'Wallet', href: '#' },
 ];
 

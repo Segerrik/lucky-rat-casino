@@ -7,6 +7,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { parseEther, formatEther } from 'viem';
 import { CASINO_ADDRESS, CASINO_ABI } from '@/lib/wagmi';
 import { CasinoShell } from '@/components/CasinoShell';
+import { CasinoGamesSection } from '@/components/CasinoGamesSection';
+import type { CasinoGame } from '@/lib/casinoGames';
 
 type CoinSide = 0 | 1;
 type GamePhase = 'idle' | 'betting' | 'flipping' | 'result';
@@ -20,6 +22,11 @@ export default function Home() {
   const [depositAmount, setDepositAmount] = useState('0.005');
   const [activeTab, setActiveTab] = useState<'game' | 'deposit' | 'withdraw'>('game');
   const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [selectedGameId, setSelectedGameId] = useState<string | null>('coin-flip');
+
+  const handleSelectGame = (game: CasinoGame) => {
+    if (game.available) setSelectedGameId(game.id);
+  };
 
   const { data: playerBalance, refetch: refetchBalance } = useReadContract({
     address: CASINO_ADDRESS,
@@ -85,54 +92,62 @@ export default function Home() {
 
   return (
     <CasinoShell>
-          {!isConnected ? (
-            /* Welcome Screen */
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{ textAlign: 'center', paddingTop: '80px' }}
-            >
-              <div style={{ fontSize: '80px', marginBottom: '24px' }}>🐀</div>
-              <h1 style={{
-                fontSize: '48px',
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <CasinoGamesSection
+          selectedGameId={isConnected ? selectedGameId : null}
+          onSelectGame={isConnected ? handleSelectGame : undefined}
+        />
+
+        {!isConnected ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ textAlign: 'center', paddingTop: '24px' }}
+          >
+            <div style={{ fontSize: '64px', marginBottom: '16px' }}>🐀</div>
+            <h1
+              style={{
+                fontSize: '36px',
                 fontWeight: '900',
                 color: '#fff',
-                marginBottom: '16px',
+                marginBottom: '12px',
                 lineHeight: 1.1,
-              }}>
-                The Luckiest Rats<br />
-                <span style={{ color: '#3DDC84' }}>Play Here</span>
-              </h1>
-              <p style={{ fontSize: '18px', color: '#7D7D7D', marginBottom: '40px' }}>
-                Connect your wallet and start winning on Sepolia testnet
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ConnectButton />
-              </div>
+              }}
+            >
+              The Luckiest Rats{' '}
+              <span style={{ color: '#3DDC84' }}>Play Here</span>
+            </h1>
+            <p style={{ fontSize: '16px', color: '#7D7D7D', marginBottom: '28px' }}>
+              Connect your wallet to play Coin Flip on Sepolia testnet
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ConnectButton />
+            </div>
 
-              {/* Stats */}
-              <div style={{
+            <div
+              style={{
                 display: 'flex',
                 justifyContent: 'center',
                 gap: '48px',
-                marginTop: '80px',
-              }}>
-                {[
-                  { label: 'House Edge', value: '5%' },
-                  { label: 'Network', value: 'Sepolia' },
-                  { label: 'Game', value: 'Coin Flip' },
-                  { label: 'Verified', value: '✓ On-chain' },
-                ].map((stat) => (
-                  <div key={stat.label} style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '24px', fontWeight: '800', color: '#3DDC84' }}>{stat.value}</div>
-                    <div style={{ fontSize: '13px', color: '#7D7D7D', marginTop: '4px' }}>{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            /* Game UI */
-            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+                marginTop: '48px',
+                flexWrap: 'wrap',
+              }}
+            >
+              {[
+                { label: 'House Edge', value: '5%' },
+                { label: 'Network', value: 'Sepolia' },
+                { label: 'Live Game', value: 'Coin Flip' },
+                { label: 'Verified', value: '✓ On-chain' },
+              ].map((stat) => (
+                <div key={stat.label} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '22px', fontWeight: '800', color: '#3DDC84' }}>{stat.value}</div>
+                  <div style={{ fontSize: '13px', color: '#7D7D7D', marginTop: '4px' }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          <div>
               {/* Hero Banner */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -197,8 +212,7 @@ export default function Home() {
               </div>
 
               <AnimatePresence mode="wait">
-                {/* GAME TAB */}
-                {activeTab === 'game' && (
+                {activeTab === 'game' && selectedGameId === 'coin-flip' && (
                   <motion.div
                     key="game"
                     initial={{ opacity: 0, x: -20 }}
@@ -467,6 +481,26 @@ export default function Home() {
                   </motion.div>
                 )}
 
+                {activeTab === 'game' && selectedGameId !== 'coin-flip' && (
+                  <motion.div
+                    key="no-game"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{
+                      background: '#1E1E1E',
+                      border: '1px solid #2A2A2A',
+                      borderRadius: '20px',
+                      padding: '48px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎰</div>
+                    <p style={{ fontSize: '16px', color: '#7D7D7D' }}>
+                      Select Coin Flip from Lucky Rat Originals to play
+                    </p>
+                  </motion.div>
+                )}
+
                 {/* DEPOSIT TAB */}
                 {activeTab === 'deposit' && (
                   <motion.div
@@ -654,8 +688,9 @@ export default function Home() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
-          )}
+          </div>
+        )}
+      </div>
     </CasinoShell>
   );
 }

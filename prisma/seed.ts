@@ -21,6 +21,12 @@ const GAMES = [
 ];
 
 async function main() {
+  const existing = await prisma.user.findUnique({ where: { email: 'admin@luckyrat.casino' } });
+  if (existing) {
+    console.log('Seed skipped — demo data already exists.');
+    return;
+  }
+
   console.log('Seeding Lucky Rat Casino...');
 
   await prisma.bet.deleteMany();

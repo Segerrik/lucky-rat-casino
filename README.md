@@ -1,6 +1,6 @@
 # Lucky Rat Casino — Full-Stack MVP
 
-Original rat-themed crypto casino demo with Next.js, Prisma, SQLite, JWT auth, games, loyalty, and admin panel.
+Original rat-themed crypto casino demo with Next.js, Prisma, PostgreSQL, JWT auth, games, loyalty, and admin panel.
 
 > **Demo only** — game outcomes and payments are mocked. Not production gambling infrastructure.
 
@@ -8,20 +8,46 @@ Original rat-themed crypto casino demo with Next.js, Prisma, SQLite, JWT auth, g
 
 - **Frontend:** Next.js 16, React 19, TypeScript, TailwindCSS + custom CSS, Framer Motion, Zustand
 - **Backend:** Next.js API Routes
-- **Database:** Prisma ORM + SQLite
+- **Database:** Prisma ORM + PostgreSQL (Neon on Vercel)
 - **Auth:** Email/password + JWT (httpOnly cookie)
 - **Web3 (optional):** RainbowKit + wagmi for Sepolia testnet deposits
 
-## Quick Start
+## Quick Start (Local)
 
 ```bash
 npm install
 cp .env.example .env
-npm run db:setup    # prisma db push + seed
+# Set DATABASE_URL to your Neon PostgreSQL connection string
+npm run db:setup    # prisma migrate deploy + seed
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
+
+## Vercel + Neon Setup
+
+1. Create a [Neon](https://neon.tech) project and copy the **PostgreSQL** connection string.
+2. In Vercel → Project → Settings → Environment Variables, add:
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | Neon connection string (`postgresql://...?sslmode=require`) |
+| `JWT_SECRET` | Long random string for signing session JWTs |
+
+3. Deploy — the build runs `prisma migrate deploy` automatically.
+4. Seed demo data once (from your machine with production env, or Neon SQL console):
+
+```bash
+npx vercel env pull .env.production.local --environment=production
+# Load DATABASE_URL from that file, then:
+npm run db:seed
+```
+
+Or run the full setup locally against Neon:
+
+```bash
+npm run db:setup
+```
 
 ## Demo Accounts
 
@@ -79,14 +105,17 @@ Progress shown with cheese pieces 🧀
 
 See `prisma/schema.prisma` — models: `User`, `Game`, `Bet`, `Transaction`, `LoyaltyLevel`
 
+Migrations live in `prisma/migrations/`. Production deploys apply them via `prisma migrate deploy`.
+
 ## Scripts
 
 ```bash
 npm run dev          # Development server
-npm run build        # Production build
-npm run db:push      # Sync schema to SQLite
+npm run build        # migrate deploy + production build
+npm run db:migrate   # Apply pending migrations
+npm run db:push      # Push schema without migrations (dev only)
 npm run db:seed      # Seed demo data
-npm run db:setup     # Push + seed
+npm run db:setup     # migrate deploy + seed
 ```
 
 ## Design

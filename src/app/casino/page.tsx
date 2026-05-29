@@ -9,9 +9,13 @@ import { CASINO_ADDRESS, CASINO_ABI } from '@/lib/wagmi';
 import { CasinoShell } from '@/components/CasinoShell';
 import { CasinoGamesSection } from '@/components/CasinoGamesSection';
 import { CASINO_GAME_CATEGORIES, type CasinoGame } from '@/lib/casinoGames';
+import { PrivateClubSlot } from '@/components/PrivateClubSlot';
 
 type CoinSide = 0 | 1;
+
 type GamePhase = 'idle' | 'betting' | 'flipping' | 'result';
+type CasinoTab = 'game' | 'slots' | 'deposit' | 'withdraw';
+type PendingAction = 'coin' | 'deposit' | 'withdraw' | null;
 
 export default function CasinoPage() {
   const { address, isConnected } = useAccount();
@@ -20,7 +24,8 @@ export default function CasinoPage() {
   const [gamePhase, setGamePhase] = useState<GamePhase>('idle');
   const [lastResult, setLastResult] = useState<{ won: boolean; payout: string } | null>(null);
   const [depositAmount, setDepositAmount] = useState('0.005');
-  const [activeTab, setActiveTab] = useState<'game' | 'deposit' | 'withdraw'>('game');
+  const [activeTab, setActiveTab] = useState<CasinoTab>('game');
+  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [selectedGameId, setSelectedGameId] = useState<string | null>('coin-flip');
 
@@ -41,24 +46,25 @@ export default function CasinoPage() {
   const { isSuccess: txSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
   useEffect(() => {
-    if (txSuccess) {
-      refetchBalance();
-      if (gamePhase === 'betting') {
-        setGamePhase('flipping');
-        setTimeout(() => {
-          setGamePhase('result');
-          setLastResult({
-            won: Math.random() > 0.5,
-            payout: (parseFloat(betAmount) * 1.9).toFixed(4),
-          });
-        }, 2000);
-      } else {
-        setGamePhase('idle');
-      }
+    if (!txSuccess || !pendingAction) return;
+    refetchBalance();
+    if (pendingAction === 'coin' && gamePhase === 'betting') {
+      setGamePhase('flipping');
+      setTimeout(() => {
+        setGamePhase('result');
+        setLastResult({
+          won: Math.random() > 0.5,
+          payout: (parseFloat(betAmount) * 1.9).toFixed(4),
+        });
+      }, 2000);
+    } else if (pendingAction === 'coin') {
+      setGamePhase('idle');
     }
-  }, [txSuccess]);
+    setPendingAction(null);
+  }, [txSuccess, pendingAction, gamePhase, betAmount, refetchBalance]);
 
   const handleDeposit = () => {
+    setPendingAction('deposit');
     writeContract({
       address: CASINO_ADDRESS,
       abi: CASINO_ABI,
@@ -70,6 +76,7 @@ export default function CasinoPage() {
   const handlePlay = () => {
     if (!playerBalance || playerBalance === BigInt(0)) return;
     setGamePhase('betting');
+    setPendingAction('coin');
     writeContract({
       address: CASINO_ADDRESS,
       abi: CASINO_ABI,
@@ -80,6 +87,7 @@ export default function CasinoPage() {
 
   const handleWithdraw = () => {
     if (!withdrawAmount) return;
+    setPendingAction('withdraw');
     writeContract({
       address: CASINO_ADDRESS,
       abi: CASINO_ABI,
@@ -181,21 +189,36 @@ export default function CasinoPage() {
 
               {/* Tabs */}
               <div className="casino-tabs">
-                {(['game', 'deposit', 'withdraw'] as const).map((tab) => (
+                {(
+                  [
+                    { id: 'game' as const, label: '🎰 Play' },
+                    { id: 'slots' as const, label: '🎰 Slots' },
+                    { id: 'deposit' as const, label: '💰 Deposit' },
+                    { id: 'withdraw' as const, label: '💸 Withdraw' },
+                  ] as const
+                ).map((tab) => (
                   <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={activeTab === tab ? 'tab-active' : ''}
-                    style={{
-                      textTransform: 'capitalize',
-                    }}
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={activeTab === tab.id ? 'tab-active' : ''}
                   >
-                    {tab === 'game' ? '🎰 Play' : tab === 'deposit' ? '💰 Deposit' : '💸 Withdraw'}
+                    {tab.label}
                   </button>
                 ))}
               </div>
 
               <AnimatePresence mode="wait">
+                {activeTab === 'slots' && (
+                  <motion.div
+                    key="slots"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                  >
+                    <PrivateClubSlot />
+                  </motion.div>
+                )}
+
                 {activeTab === 'game' && selectedGameId === 'coin-flip' && (
                   <motion.div
                     key="game"

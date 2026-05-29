@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lucky Rat Casino — Full-Stack MVP
 
-## Getting Started
+Original rat-themed crypto casino demo with Next.js, Prisma, SQLite, JWT auth, games, loyalty, and admin panel.
 
-First, run the development server:
+> **Demo only** — game outcomes and payments are mocked. Not production gambling infrastructure.
+
+## Tech Stack
+
+- **Frontend:** Next.js 16, React 19, TypeScript, TailwindCSS + custom CSS, Framer Motion, Zustand
+- **Backend:** Next.js API Routes
+- **Database:** Prisma ORM + SQLite
+- **Auth:** Email/password + JWT (httpOnly cookie)
+- **Web3 (optional):** RainbowKit + wagmi for Sepolia testnet deposits
+
+## Quick Start
 
 ```bash
+npm install
+cp .env.example .env
+npm run db:setup    # prisma db push + seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Accounts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Role  | Email                    | Password   |
+|-------|--------------------------|------------|
+| Admin | admin@luckyrat.casino    | Admin123!  |
+| User  | user@luckyrat.casino     | User123!   |
 
-## Learn More
+## Main Routes
 
-To learn more about Next.js, take a look at the following resources:
+| Page | URL |
+|------|-----|
+| Casino Lobby | `/` |
+| Login / Register | `/login`, `/register` |
+| Profile | `/profile` |
+| Wallet | `/wallet` |
+| Loyalty | `/loyalty` |
+| Crypto Bets | `/bets` |
+| Lucky Rat Slot | `/games/lucky-rat-slot` |
+| Cheese Heist | `/games/cheese-heist` |
+| Kristina Slot | `/slots` |
+| Admin Panel | `/admin` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Loyalty Levels
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Sewer Rat
+2. Street Rat
+3. Cheese Hunter
+4. Golden Rat
+5. Rat King
 
-## Deploy on Vercel
+Progress shown with cheese pieces 🧀
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Endpoints
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `POST /api/auth/register` — Register
+- `POST /api/auth/login` — Login
+- `POST /api/auth/logout` — Logout
+- `GET /api/user/me` — Current user
+- `POST /api/wallet/deposit` — Mock deposit
+- `POST /api/wallet/withdraw` — Mock withdraw
+- `GET /api/wallet/transactions` — Transaction history
+- `GET /api/games/list` — Active games
+- `POST /api/games/play-slot` — Play slot (demo RNG)
+- `POST /api/bets/place` — Place crypto bet
+- `GET /api/bets/history` — Bet history
+- `GET /api/loyalty/status` — Loyalty info
+- `GET /api/admin/stats` — Admin dashboard
+- `GET/PATCH /api/admin/users` — User management
+- `GET/PATCH /api/admin/games` — Game management
+- `GET /api/admin/transactions` — All transactions
+- `GET/PATCH /api/admin/loyalty` — Loyalty settings
+
+## Database Schema
+
+See `prisma/schema.prisma` — models: `User`, `Game`, `Bet`, `Transaction`, `LoyaltyLevel`
+
+## Scripts
+
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm run db:push      # Sync schema to SQLite
+npm run db:seed      # Seed demo data
+npm run db:setup     # Push + seed
+```
+
+## Design
+
+Dark grey/silver UI with neon green (#9dff57) and gold (#F4C542) accents. Rat mascot theme with cheese loyalty progress.
+
+## Notes
+
+- Slot and betting results use **mock random logic** (~97% RTP target for slots)
+- No real crypto payments — wallet deposit/withdraw updates local DB balance only
+- Web3 wallet connect still available for Sepolia on-chain casino features

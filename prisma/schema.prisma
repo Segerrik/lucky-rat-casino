@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  username     String
+  role         String        @default("USER")
+  balance      Float         @default(1000)
+  xp           Int           @default(0)
+  loyaltyLevel Int           @default(1)
+  totalWagered Float         @default(0)
+  totalWon     Float         @default(0)
+  isBlocked    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  bets         Bet[]
+  transactions Transaction[]
+}
+
+model Game {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  type      String
+  category  String
+  rtp       Float
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  bets      Bet[]
+}
+
+model Bet {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  gameId     String?
+  game       Game?    @relation(fields: [gameId], references: [id])
+  marketId   String?
+  type       String
+  amount     Float
+  multiplier Float?
+  result     String   @default("PENDING")
+  payout     Float    @default(0)
+  metadata   String?
+  createdAt  DateTime @default(now())
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String
+  currency  String
+  amount    Float
+  status    String   @default("COMPLETED")
+  createdAt DateTime @default(now())
+}
+
+model LoyaltyLevel {
+  id                  Int    @id @default(autoincrement())
+  level               Int    @unique
+  name                String
+  minXp               Int
+  cashbackPercent     Float
+  weeklyBonusPercent  Float
+  monthlyBonusPercent Float
+}

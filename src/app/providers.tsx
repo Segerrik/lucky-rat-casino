@@ -4,7 +4,8 @@ import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { config } from '@/lib/wagmi';
-import '@rainbow-me/rainbowkit/styles.css';
+import { AuthProvider } from '@/components/AuthProvider';
+import { Toast } from '@/components/Toast';
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           accentColorForeground: '#121212',
           borderRadius: 'medium',
         })}>
-          {children}
+          <AuthProvider>
+            {children}
+            <Toast />
+          </AuthProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

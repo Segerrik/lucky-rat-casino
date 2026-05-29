@@ -12,7 +12,7 @@ export default function HomePage() {
       <div className="page-container">
         <PrivateClubBanner />
         <HomeStats />
-        <CasinoGamesSection categories={HOME_PAGE_CATEGORIES} />
+        <CasinoGamesSection categories={HOME_PAGE_CATEGORIES} variant="home" />
       </div>
     </CasinoShell>
   );

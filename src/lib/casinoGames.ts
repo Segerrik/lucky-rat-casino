@@ -16,6 +16,7 @@ export interface CasinoGame {
   category: GameCategory;
   available: boolean;
   href?: string;
+  rtp?: number;
 }
 
 export interface GameCategoryConfig {
@@ -37,17 +38,6 @@ export const CASINO_GAME_CATEGORIES: GameCategoryConfig[] = [
 ];
 
 export const CASINO_GAMES: CasinoGame[] = [
-  {
-    id: 'lucky-rat',
-    title: 'THE PRIVATE CLUB',
-    provider: 'LUCKY RAT',
-    emoji: '🐀',
-    gradient: 'linear-gradient(160deg, #0a0908 0%, #2a2218 45%, #f4c542 100%)',
-    titleColor: '#F4C542',
-    category: 'popular',
-    available: true,
-    href: '/slots',
-  },
   {
     id: 'hot-chillies',
     title: '3 Hot Chillies',
@@ -299,14 +289,14 @@ export const CASINO_GAMES: CasinoGame[] = [
     available: false,
   },
   {
-    id: 'coin-flip',
+    id: 'coin-flip-static',
     title: 'COIN FLIP',
     provider: 'LUCKY RAT',
     emoji: '🐀',
     gradient: 'linear-gradient(160deg, #1b5e20 0%, #2e7d32 40%, #f4c542 100%)',
     titleColor: '#F4C542',
     category: 'originals',
-    available: true,
+    available: false,
   },
 ];
 

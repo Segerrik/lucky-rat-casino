@@ -16,15 +16,46 @@ import {
 } from '@/lib/vipLevels';
 import { CheeseProgress } from '@/components/CheeseProgress';
 import { NavIcon } from '@/components/NavIcon';
+import { useAuthStore } from '@/store/authStore';
+
+function UserBalanceHeader() {
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  if (!user) {
+    return (
+      <div className="lr-header-auth">
+        <Link href="/login" className="lr-header-link">Login</Link>
+        <Link href="/register" className="lr-header-link lr-header-link--primary">Register</Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="lr-header-auth lr-header-auth--user">
+      <Link href="/wallet" className="lr-header-balance">${user.balance.toFixed(2)}</Link>
+      <Link href="/profile" className="lr-header-avatar" title={user.username}>
+        🐀
+      </Link>
+      {user.role === 'ADMIN' && (
+        <Link href="/admin" className="lr-header-link">Admin</Link>
+      )}
+      <button type="button" className="lr-header-link" onClick={() => void logout()}>
+        Logout
+      </button>
+    </div>
+  );
+}
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
   { label: 'Casino', href: '/casino', icon: 'casino' },
   { label: '🎰 Slots', href: '/slots', icon: 'slots' },
+  { label: 'Crypto Bets', href: '/bets', icon: 'missions' },
   { label: 'Promotions', href: '#', icon: 'promotions' },
-  { label: 'VIP Club', href: '/vip', icon: 'vip' },
-  { label: 'Missions', href: '#', icon: 'missions' },
-  { label: 'Wallet', href: '#', icon: 'wallet' },
+  { label: 'Loyalty', href: '/loyalty', icon: 'vip' },
+  { label: 'Wallet', href: '/wallet', icon: 'wallet' },
+  { label: 'Profile', href: '/profile', icon: 'home' },
 ] as const;
 
 function useIsMobile(breakpoint = 768) {
@@ -118,6 +149,7 @@ export function CasinoShell({
         </div>
 
         <div className="shell-header-right">
+          <UserBalanceHeader />
           {isConnected && (
             <div className="header-balance">
               <span className="header-balance-amount">{formattedBalance}Ξ</span>

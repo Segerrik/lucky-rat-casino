@@ -29,7 +29,9 @@ export default function CasinoPage() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>('coin-flip');
 
   const handleSelectGame = (game: CasinoGame) => {
-    if (game.available) setSelectedGameId(game.id);
+    if (!game.available) return;
+    if (game.href) return;
+    setSelectedGameId(game.id);
   };
 
   const { data: playerBalance, refetch: refetchBalance } = useReadContract({
@@ -104,6 +106,7 @@ export default function CasinoPage() {
           categories={CASINO_GAME_CATEGORIES}
           selectedGameId={isConnected ? selectedGameId : null}
           onSelectGame={isConnected ? handleSelectGame : undefined}
+          variant="casino"
         />
 
         {!isConnected ? (

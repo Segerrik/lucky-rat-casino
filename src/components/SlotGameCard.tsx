@@ -32,7 +32,12 @@ export function SlotGameCard({ game, isSelected, onClick }: SlotGameCardProps) {
       </div>
       <div className="slot-card-meta">
         <h3 className="slot-card-title">{game.title}</h3>
-        <p className="slot-card-provider">{game.provider}</p>
+        <p className="slot-card-provider">
+          {game.provider}
+          {game.rtp != null && game.rtp > 0 && (
+            <span className="slot-card-rtp"> · RTP {game.rtp}%</span>
+          )}
+        </p>
       </div>
     </>
   );

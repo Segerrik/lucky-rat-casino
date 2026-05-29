@@ -6,6 +6,7 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { parseEther, formatEther } from 'viem';
 import { CASINO_ADDRESS, CASINO_ABI } from '@/lib/wagmi';
+import { CasinoShell } from '@/components/CasinoShell';
 
 type CoinSide = 0 | 1;
 type GamePhase = 'idle' | 'betting' | 'flipping' | 'result';
@@ -83,114 +84,7 @@ export default function Home() {
   const formattedBalance = playerBalance ? parseFloat(formatEther(playerBalance)).toFixed(4) : '0.0000';
 
   return (
-    <div style={{ minHeight: '100vh', background: '#121212', color: '#BFC3C9' }}>
-      {/* Header */}
-      <header style={{
-        background: '#1E1E1E',
-        borderBottom: '1px solid #2A2A2A',
-        padding: '16px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '28px' }}>🐀</span>
-          <div>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: '#3DDC84', letterSpacing: '-0.5px' }}>
-              Lucky Rat
-            </div>
-            <div style={{ fontSize: '11px', color: '#7D7D7D', letterSpacing: '2px', textTransform: 'uppercase' }}>
-              Casino
-            </div>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {isConnected && (
-            <div style={{
-              background: '#2A2A2A',
-              border: '1px solid #3DDC84',
-              borderRadius: '12px',
-              padding: '8px 16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}>
-              <span style={{ fontSize: '14px' }}>🧀</span>
-              <span style={{ fontSize: '14px', fontWeight: '700', color: '#3DDC84' }}>
-                {formattedBalance} ETH
-              </span>
-            </div>
-          )}
-          <ConnectButton />
-        </div>
-      </header>
-
-      <div style={{ display: 'flex', minHeight: 'calc(100vh - 73px)' }}>
-        {/* Sidebar */}
-        <aside style={{
-          width: '220px',
-          background: '#1E1E1E',
-          borderRight: '1px solid #2A2A2A',
-          padding: '24px 0',
-          flexShrink: 0,
-        }}>
-          {[
-            { icon: '🎰', label: 'Casino', active: true },
-            { icon: '⚽', label: 'Sports', active: false },
-            { icon: '🎮', label: 'Live Casino', active: false },
-            { icon: '🎁', label: 'Promotions', active: false },
-            { icon: '👑', label: 'VIP Club', active: false },
-            { icon: '🎯', label: 'Missions', active: false },
-            { icon: '🏆', label: 'Leaderboard', active: false },
-            { icon: '💼', label: 'Wallet', active: false },
-          ].map((item) => (
-            <div key={item.label} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 24px',
-              cursor: 'pointer',
-              background: item.active ? 'rgba(61, 220, 132, 0.1)' : 'transparent',
-              borderLeft: item.active ? '3px solid #3DDC84' : '3px solid transparent',
-              color: item.active ? '#3DDC84' : '#7D7D7D',
-              transition: 'all 0.2s',
-            }}>
-              <span>{item.icon}</span>
-              <span style={{ fontSize: '14px', fontWeight: item.active ? '600' : '400' }}>{item.label}</span>
-            </div>
-          ))}
-
-          {/* VIP Progress */}
-          <div style={{
-            margin: '24px 16px',
-            background: '#2A2A2A',
-            borderRadius: '12px',
-            padding: '16px',
-          }}>
-            <div style={{ fontSize: '12px', color: '#7D7D7D', marginBottom: '8px' }}>VIP Level</div>
-            <div style={{ fontSize: '14px', fontWeight: '700', color: '#F4C542', marginBottom: '12px' }}>
-              🐀 Street Rat
-            </div>
-            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} style={{
-                  flex: 1,
-                  height: '6px',
-                  borderRadius: '3px',
-                  background: i === 1 ? '#F4C542' : '#3A3A3A',
-                }}/>
-              ))}
-            </div>
-            <div style={{ fontSize: '11px', color: '#7D7D7D' }}>0 / 1000 XP</div>
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <main style={{ flex: 1, padding: '32px' }}>
+    <CasinoShell>
           {!isConnected ? (
             /* Welcome Screen */
             <motion.div
@@ -762,8 +656,6 @@ export default function Home() {
               </AnimatePresence>
             </div>
           )}
-        </main>
-      </div>
-    </div>
+    </CasinoShell>
   );
 }

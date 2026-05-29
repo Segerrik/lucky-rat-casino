@@ -51,14 +51,14 @@ export const SYMBOLS: Record<SymbolId, SlotSymbolDef> = {
   porsche: {
     id: 'porsche',
     name: 'Porsche',
-    image: '/slots/porsche.png',
+    image: '/slots/porsche.jfif',
     weight: 12,
     pays: { 3: 3, 4: 6, 5: 10 },
   },
   wild: {
     id: 'wild',
     name: 'WILD',
-    image: '/slots/wild.png',
+    image: '/slots/wild.jfif',
     weight: 3,
     pays: {},
     isWild: true,
@@ -74,7 +74,7 @@ export const SYMBOLS: Record<SymbolId, SlotSymbolDef> = {
   trap: {
     id: 'trap',
     name: 'Trap',
-    image: '/slots/trap.png',
+    image: '/slots/trap.jfif',
     weight: 28,
     pays: {},
     isTrap: true,

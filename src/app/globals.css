@@ -1541,3 +1541,520 @@ a.shell-nav-item {
     grid-template-columns: 1fr;
   }
 }
+
+/* ——— Kristina Slot (/slots) ——— */
+.kristina-slot {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0d0d0d;
+  color: #fff;
+  font-family: var(--font-sans);
+}
+
+.k-slot-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(244, 197, 66, 0.15);
+  background: #0d0d0d;
+}
+
+.k-slot-back {
+  color: #f4c542;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid rgba(244, 197, 66, 0.3);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.k-slot-back:hover {
+  background: rgba(244, 197, 66, 0.1);
+}
+
+.k-slot-hud {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: center;
+}
+
+.k-slot-hud-item {
+  background: #141414;
+  border: 1px solid rgba(244, 197, 66, 0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.k-slot-hud-item--free {
+  border-color: #ff8800;
+  background: rgba(255, 136, 0, 0.08);
+}
+
+.k-slot-hud-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.k-slot-hud-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.k-slot-hud-value--gold {
+  color: #f4c542;
+}
+
+.k-slot-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.k-slot-icon-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #141414;
+  color: #999;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  min-width: 36px;
+}
+
+.k-slot-icon-btn--active {
+  border-color: #f4c542;
+  color: #f4c542;
+  background: rgba(244, 197, 66, 0.1);
+}
+
+.k-slot-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.k-slot-window {
+  display: grid;
+  grid-template-columns: repeat(5, 120px);
+  gap: 6px;
+  padding: 16px;
+  background: linear-gradient(180deg, #050505 0%, #111 100%);
+  border: 3px solid #f4c542;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(244, 197, 66, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.k-slot-reel {
+  width: 120px;
+  height: 360px;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.k-slot-reel-strip {
+  display: flex;
+  flex-direction: column;
+}
+
+.k-slot-cell {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+.k-slot-symbol-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.k-slot-cell--win {
+  background: rgba(244, 197, 66, 0.25);
+  box-shadow: inset 0 0 20px rgba(244, 197, 66, 0.5);
+  animation: win-pulse 0.7s ease infinite alternate;
+}
+
+.k-slot-controls {
+  padding: 16px 20px 28px;
+  border-top: 1px solid rgba(244, 197, 66, 0.12);
+  background: #0d0d0d;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.k-slot-bets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.k-slot-bet-btn {
+  flex: 1;
+  min-width: 64px;
+  padding: 12px 8px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #141414;
+  color: #888;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+}
+
+.k-slot-bet-btn--active {
+  border-color: #f4c542;
+  background: rgba(244, 197, 66, 0.12);
+  color: #f4c542;
+}
+
+.k-slot-bet-btn--max {
+  color: #f4c542;
+  border-color: rgba(244, 197, 66, 0.35);
+}
+
+.k-slot-bet-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.k-slot-action-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.k-slot-autospin-wrap {
+  position: relative;
+  flex: 0 0 150px;
+}
+
+.k-slot-autospin-btn {
+  width: 100%;
+  height: 100%;
+  min-height: 60px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(244, 197, 66, 0.35);
+  background: #141414;
+  color: #f4c542;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.k-slot-autospin-btn--stop {
+  border-color: #ff4444;
+  color: #ff6666;
+}
+
+.k-slot-autospin-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 30;
+}
+
+.k-slot-autospin-menu button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+}
+
+.k-slot-autospin-menu button:hover {
+  background: rgba(244, 197, 66, 0.12);
+  color: #f4c542;
+}
+
+.k-slot-spin-btn {
+  flex: 1;
+  min-height: 60px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f4c542 0%, #c9a020 100%);
+  color: #0d0d0d;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.k-slot-spin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.k-slot-spin-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.k-slot-footer-note {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #555;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.k-slot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.k-slot-overlay--win {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.k-slot-overlay--big {
+  background: radial-gradient(circle at center, rgba(244, 197, 66, 0.35) 0%, rgba(0, 0, 0, 0.88) 65%);
+}
+
+.k-slot-overlay--mega {
+  background: radial-gradient(circle at center, rgba(180, 0, 0, 0.55) 0%, rgba(80, 0, 0, 0.92) 70%);
+}
+
+.k-slot-overlay-title {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  color: #f4c542;
+  text-shadow: 0 0 60px rgba(244, 197, 66, 0.9);
+  z-index: 2;
+}
+
+.k-slot-overlay--mega .k-slot-overlay-title {
+  color: #fff;
+  text-shadow: 0 0 40px rgba(255, 68, 68, 0.9);
+  animation: win-pulse 0.5s ease infinite alternate;
+}
+
+.k-slot-overlay-amount {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 12px;
+  z-index: 2;
+}
+
+.k-slot-coins {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.k-slot-coin {
+  position: absolute;
+  top: 20%;
+  font-size: 36px;
+}
+
+.k-slot-confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.k-slot-confetti-piece {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.k-slot-free-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 350;
+  padding: 20px 32px;
+  background: linear-gradient(135deg, #ff8800, #f4c542);
+  color: #0d0d0d;
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(244, 197, 66, 0.5);
+  pointer-events: none;
+}
+
+.k-slot-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.k-slot-modal {
+  position: relative;
+  background: #141414;
+  border: 1px solid rgba(244, 197, 66, 0.3);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.k-slot-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.k-slot-modal-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: #f4c542;
+  margin: 0 0 20px;
+}
+
+.k-slot-modal-section {
+  margin-bottom: 20px;
+}
+
+.k-slot-modal-section h3 {
+  font-size: 14px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 10px;
+}
+
+.k-slot-modal-section ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.k-slot-paytable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.k-slot-paytable-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: #0d0d0d;
+  border-radius: 8px;
+}
+
+.k-slot-paytable-name {
+  font-weight: 700;
+  color: #fff;
+  min-width: 80px;
+}
+
+.k-slot-paytable-pays {
+  font-size: 12px;
+  color: #f4c542;
+  margin-left: auto;
+  text-align: right;
+}
+
+@media (max-width: 680px) {
+  .k-slot-window {
+    grid-template-columns: repeat(5, min(20vw, 72px));
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .k-slot-reel {
+    width: min(20vw, 72px);
+    height: min(60vw, 216px);
+  }
+
+  .k-slot-cell {
+    width: min(20vw, 72px);
+    height: min(20vw, 72px);
+  }
+
+  .k-slot-symbol-img {
+    width: min(18vw, 60px);
+    height: min(18vw, 60px);
+  }
+
+  .k-slot-action-row {
+    flex-direction: column;
+  }
+
+  .k-slot-autospin-wrap {
+    width: 100%;
+    flex: 1;
+  }
+
+  .k-slot-overlay-title {
+    font-size: 48px;
+  }
+}

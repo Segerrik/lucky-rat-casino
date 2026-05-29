@@ -46,7 +46,7 @@ export const CASINO_GAMES: CasinoGame[] = [
     titleColor: '#F4C542',
     category: 'popular',
     available: true,
-    href: '/casino/lucky-rat',
+    href: '/slots',
   },
   {
     id: 'hot-chillies',

@@ -1,5 +1,7 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { KristinaSlot } from '@/components/KristinaSlot';
 
 export default function SlotsPage() {
-  redirect('/casino/lucky-rat');
+  return <KristinaSlot />;
 }

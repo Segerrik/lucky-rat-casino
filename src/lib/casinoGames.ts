@@ -15,6 +15,7 @@ export interface CasinoGame {
   titleColor: string;
   category: GameCategory;
   available: boolean;
+  href?: string;
 }
 
 export interface GameCategoryConfig {
@@ -37,10 +38,21 @@ export const CASINO_GAME_CATEGORIES: GameCategoryConfig[] = [
 
 export const CASINO_GAMES: CasinoGame[] = [
   {
+    id: 'lucky-rat',
+    title: 'THE PRIVATE CLUB',
+    provider: 'LUCKY RAT',
+    emoji: '🐀',
+    gradient: 'linear-gradient(160deg, #0a0908 0%, #2a2218 45%, #f4c542 100%)',
+    titleColor: '#F4C542',
+    category: 'popular',
+    available: true,
+    href: '/casino/lucky-rat',
+  },
+  {
     id: 'hot-chillies',
     title: '3 Hot Chillies',
     provider: 'BOOONGO',
-    emoji: '🌶️',
+    emoji: '🧀',
     gradient: 'linear-gradient(160deg, #c62828 0%, #ff6f00 45%, #ffca28 100%)',
     titleColor: '#FFEB3B',
     category: 'popular',
@@ -60,7 +72,7 @@ export const CASINO_GAMES: CasinoGame[] = [
     id: 'royal-dracos',
     title: '3 Royal Dracos',
     provider: 'PRAGMATIC',
-    emoji: '🐉',
+    emoji: '👑',
     gradient: 'linear-gradient(160deg, #1a237e 0%, #3949ab 40%, #ffd54f 100%)',
     titleColor: '#FFD54F',
     category: 'popular',
@@ -70,7 +82,7 @@ export const CASINO_GAMES: CasinoGame[] = [
     id: 'mummyland',
     title: 'Mummyland Treasures',
     provider: 'BELATRA',
-    emoji: '🏺',
+    emoji: '💎',
     gradient: 'linear-gradient(160deg, #4e342e 0%, #8d6e63 40%, #ffd54f 100%)',
     titleColor: '#FFE082',
     category: 'popular',
@@ -290,7 +302,7 @@ export const CASINO_GAMES: CasinoGame[] = [
     id: 'coin-flip',
     title: 'COIN FLIP',
     provider: 'LUCKY RAT',
-    emoji: '🪙',
+    emoji: '🐀',
     gradient: 'linear-gradient(160deg, #1b5e20 0%, #2e7d32 40%, #f4c542 100%)',
     titleColor: '#F4C542',
     category: 'originals',

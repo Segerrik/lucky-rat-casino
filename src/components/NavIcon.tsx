@@ -11,57 +11,70 @@ const iconProps = {
   strokeLinejoin: 'round' as const,
 };
 
+/** Sidebar icons — rat-themed casino motifs */
 export function NavIcon({ name }: { name: string }) {
   const icons: Record<string, ReactNode> = {
     home: (
       <svg {...iconProps}>
-        <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5Z" />
+        <path d="M4 11 12 4l8 7" />
+        <path d="M6 10v10h12V10" />
+        <path d="M10 20v-5h4v5" />
+        <path d="M9 8.5c0-1 .8-1.5 1.5-1.5h3C14.2 7 15 7.5 15 8.5" />
+        <circle cx="12" cy="6" r="0.75" fill="currentColor" stroke="none" />
       </svg>
     ),
     casino: (
       <svg {...iconProps}>
-        <rect x="3" y="3" width="18" height="18" rx="3" />
-        <circle cx="8.5" cy="8.5" r="1.25" fill="currentColor" stroke="none" />
-        <circle cx="15.5" cy="8.5" r="1.25" fill="currentColor" stroke="none" />
-        <circle cx="12" cy="12" r="1.25" fill="currentColor" stroke="none" />
-        <circle cx="8.5" cy="15.5" r="1.25" fill="currentColor" stroke="none" />
-        <circle cx="15.5" cy="15.5" r="1.25" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-    promotions: (
-      <svg {...iconProps}>
-        <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" />
-        <path d="M12 3v6" />
-        <path d="M8.5 9h7" />
-        <path d="M12 3 9.5 9h5L12 3Z" />
-        <path d="M7 12h10" />
-      </svg>
-    ),
-    vip: (
-      <svg {...iconProps}>
-        <path d="M5 17 3 7l4.5 3L12 4l4.5 6L21 7l-2 10H5Z" />
-        <path d="M5 17h14v2H5v-2Z" />
-      </svg>
-    ),
-    missions: (
-      <svg {...iconProps}>
-        <circle cx="12" cy="12" r="9" />
-        <circle cx="12" cy="12" r="5" />
-        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-    wallet: (
-      <svg {...iconProps}>
-        <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" />
-        <path d="M17 13h4v2h-4a1 1 0 1 1 0-2Z" />
-        <path d="M3 9h18" />
+        <rect x="5" y="6" width="14" height="14" rx="2" />
+        <path d="M8 10v6M12 10v6M16 10v6" />
+        <path d="M5 13h14" />
+        <path d="M9 4.5 10 6h4l1-1.5" />
+        <circle cx="12" cy="4" r="0.6" fill="currentColor" stroke="none" />
       </svg>
     ),
     slots: (
       <svg {...iconProps}>
-        <rect x="4" y="4" width="16" height="16" rx="2" />
-        <path d="M8 8v8M12 8v8M16 8v8" />
+        <rect x="4" y="5" width="16" height="14" rx="2" />
+        <path d="M8 9v6M12 9v6M16 9v6" />
         <path d="M4 12h16" />
+        <path d="M7 20c1.5 1 8.5 1 10 0" />
+        <circle cx="9" cy="3.5" r="0.75" fill="currentColor" stroke="none" />
+        <circle cx="15" cy="3.5" r="0.75" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+    promotions: (
+      <svg {...iconProps}>
+        <path d="M12 3 8 7h8l-4-4Z" />
+        <rect x="6" y="7" width="12" height="10" rx="1.5" />
+        <path d="M12 7v10" />
+        <path d="M6 11h12" />
+        <circle cx="12" cy="13.5" r="1.25" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+    vip: (
+      <svg {...iconProps}>
+        <path d="M5 16 3 8l4 2.5L12 5l5 5.5 4-2.5-2 8H5Z" />
+        <path d="M5 16h14v2H5v-2Z" />
+        <path d="M8.5 18.5c1 .5 6 .5 7 0" />
+        <circle cx="12" cy="10" r="0.75" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+    missions: (
+      <svg {...iconProps}>
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="12" cy="12" r="1.25" fill="currentColor" stroke="none" />
+        <path d="M12 4v2M12 18v2M4 12h2M18 12h2" />
+        <path d="M6.5 6.5 8 8M16 16l1.5 1.5M17.5 6.5 16 8M8 16l-1.5 1.5" />
+      </svg>
+    ),
+    wallet: (
+      <svg {...iconProps}>
+        <ellipse cx="12" cy="14" rx="7" ry="4" />
+        <path d="M5 14V9a7 4 0 0 1 14 0v5" />
+        <circle cx="15" cy="14" r="1.25" fill="currentColor" stroke="none" />
+        <path d="M8.5 7.5c.5-1 2-1.5 3.5-1.5s3 .5 3.5 1.5" />
+        <path d="M10 18.5c1 .8 3 .8 4 0" />
       </svg>
     ),
   };

@@ -569,6 +569,7 @@ a.shell-nav-item {
 }
 
 .slot-card-hit {
+  display: block;
   border: none;
   padding: 0;
   background: none;
@@ -578,6 +579,8 @@ a.shell-nav-item {
   border-radius: var(--radius-md);
   overflow: hidden;
   transition: transform 0.2s;
+  text-decoration: none;
+  color: inherit;
 }
 
 .slot-card-hit:disabled {

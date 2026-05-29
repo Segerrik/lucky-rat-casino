@@ -1,12 +1,5 @@
-'use client';
-
-import { CasinoShell } from '@/components/CasinoShell';
-import { PrivateClubSlot } from '@/components/PrivateClubSlot';
+import { redirect } from 'next/navigation';
 
 export default function SlotsPage() {
-  return (
-    <CasinoShell mainClassName="shell-main--slots">
-      <PrivateClubSlot />
-    </CasinoShell>
-  );
+  redirect('/casino/lucky-rat');
 }

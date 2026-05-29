@@ -20,7 +20,7 @@ import { NavIcon } from '@/components/NavIcon';
 const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
   { label: 'Casino', href: '/casino', icon: 'casino' },
-  { label: '🎰 Slots', href: '/slots', icon: 'slots' },
+  { label: '🎰 Slots', href: '/casino/lucky-rat', icon: 'slots' },
   { label: 'Promotions', href: '#', icon: 'promotions' },
   { label: 'VIP Club', href: '/vip', icon: 'vip' },
   { label: 'Missions', href: '#', icon: 'missions' },

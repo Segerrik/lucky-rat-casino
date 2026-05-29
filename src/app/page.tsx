@@ -8,7 +8,7 @@ import { HOME_PAGE_CATEGORIES } from '@/lib/casinoGames';
 export default function HomePage() {
   return (
     <CasinoShell>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="page-container">
         <PrivateClubBanner />
         <CasinoGamesSection categories={HOME_PAGE_CATEGORIES} />
       </div>

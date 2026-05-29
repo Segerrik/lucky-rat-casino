@@ -11,19 +11,9 @@ export function PrivateClubBanner() {
   return (
     <>
       <motion.div
+        className="private-club-banner"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{
-          position: 'relative',
-          width: '100%',
-          aspectRatio: '21 / 9',
-          minHeight: '280px',
-          borderRadius: '24px',
-          overflow: 'hidden',
-          marginBottom: '36px',
-          border: '1px solid rgba(244, 197, 66, 0.35)',
-          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.5)',
-        }}
       >
         <Image
           src="/banners/private-club.png"
@@ -83,6 +73,7 @@ export function PrivateClubBanner() {
             PRIVATE CLUB
           </h1>
           <p
+            className="banner-subtitle"
             style={{
               fontSize: '14px',
               color: 'rgba(255, 255, 255, 0.75)',
@@ -111,6 +102,7 @@ export function PrivateClubBanner() {
         >
           <button
             type="button"
+            className="banner-cta"
             onClick={() => setDepositOpen(true)}
             style={{
               padding: '14px 32px',

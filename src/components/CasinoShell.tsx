@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -12,6 +13,7 @@ import {
   getVipProgress,
   VIP_LEVELS,
 } from '@/lib/vipLevels';
+import { CheeseProgress } from '@/components/CheeseProgress';
 
 const NAV_ITEMS = [
   { icon: '🏠', label: 'Home', href: '/' },
@@ -22,9 +24,33 @@ const NAV_ITEMS = [
   { icon: '💼', label: 'Wallet', href: '#' },
 ];
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export function CasinoShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { address, isConnected } = useAccount();
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setSidebarOpen(!isMobile);
+  }, [isMobile]);
+
+  const closeSidebarOnMobile = useCallback(() => {
+    if (isMobile) setSidebarOpen(false);
+  }, [isMobile]);
 
   const { data: playerBalance } = useReadContract({
     address: CASINO_ADDRESS,
@@ -41,130 +67,100 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
   const vipProgress = getVipProgress(DEMO_PLAYER_XP);
   const currentLevel = getVipLevelForXp(DEMO_PLAYER_XP);
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#121212', color: '#BFC3C9' }}>
-      <header
-        style={{
-          background: '#1E1E1E',
-          borderBottom: '1px solid #2A2A2A',
-          padding: '16px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-        }}
-      >
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <span style={{ fontSize: '28px' }}>🐀</span>
-          <div>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: '#3DDC84', letterSpacing: '-0.5px' }}>
-              Lucky Rat
-            </div>
-            <div style={{ fontSize: '11px', color: '#7D7D7D', letterSpacing: '2px', textTransform: 'uppercase' }}>
-              Casino
-            </div>
-          </div>
-        </Link>
+  const sidebarClass = [
+    'shell-sidebar',
+    sidebarOpen ? 'shell-sidebar--open' : 'shell-sidebar--closed',
+  ].join(' ');
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+  return (
+    <div className="shell-root">
+      <header className="shell-header">
+        <div className="shell-header-left">
+          <button
+            type="button"
+            className="sidebar-toggle"
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label={sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+            aria-expanded={sidebarOpen}
+          >
+            {sidebarOpen ? '✕' : '☰'}
+          </button>
+          <Link href="/" className="shell-logo" onClick={closeSidebarOnMobile}>
+            <span className="shell-logo-icon">🐀</span>
+            <div>
+              <div className="shell-logo-title">Lucky Rat</div>
+              <div className="shell-logo-sub">Casino</div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="shell-header-right">
           {isConnected && (
-            <div
-              style={{
-                background: '#2A2A2A',
-                border: '1px solid #3DDC84',
-                borderRadius: '12px',
-                padding: '8px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <span style={{ fontSize: '14px' }}>🧀</span>
-              <span style={{ fontSize: '14px', fontWeight: '700', color: '#3DDC84' }}>
-                {formattedBalance} ETH
-              </span>
+            <div className="header-balance">
+              <span>🧀</span>
+              <span className="header-balance-amount">{formattedBalance} ETH</span>
             </div>
           )}
-          <ConnectButton />
+          <div className="connect-wrap">
+            <ConnectButton />
+          </div>
         </div>
       </header>
 
-      <div style={{ display: 'flex', minHeight: 'calc(100vh - 73px)' }}>
-        <aside
-          style={{
-            width: '220px',
-            background: '#1E1E1E',
-            borderRight: '1px solid #2A2A2A',
-            padding: '24px 0',
-            flexShrink: 0,
-          }}
-        >
-          {NAV_ITEMS.map((item) => {
-            const isActive =
-              item.href === '/'
-                ? pathname === '/'
-                : item.href !== '#' && pathname.startsWith(item.href);
-            const inner = (
-              <>
-                <span>{item.icon}</span>
-                <span style={{ fontSize: '14px', fontWeight: isActive ? '600' : '400' }}>{item.label}</span>
-              </>
-            );
-            const itemStyle = {
-              display: 'flex' as const,
-              alignItems: 'center' as const,
-              gap: '12px',
-              padding: '12px 24px',
-              cursor: 'pointer' as const,
-              background: isActive ? 'rgba(61, 220, 132, 0.1)' : 'transparent',
-              borderLeft: isActive ? '3px solid #3DDC84' : '3px solid transparent',
-              color: isActive ? '#3DDC84' : '#7D7D7D',
-              transition: 'all 0.2s',
-              textDecoration: 'none' as const,
-            };
+      <div className="shell-body">
+        {isMobile && sidebarOpen && (
+          <button
+            type="button"
+            className="shell-overlay"
+            aria-label="Close menu"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-            return item.href === '#' ? (
-              <div key={item.label} style={itemStyle}>
-                {inner}
-              </div>
-            ) : (
-              <Link key={item.label} href={item.href} style={itemStyle}>
-                {inner}
-              </Link>
-            );
-          })}
+        <aside className={sidebarClass}>
+          <nav className="shell-nav">
+            {NAV_ITEMS.map((item) => {
+              const isActive =
+                item.href === '/'
+                  ? pathname === '/'
+                  : item.href !== '#' && pathname.startsWith(item.href);
+              const itemClass = `shell-nav-item ${isActive ? 'shell-nav-item--active' : ''}`;
 
-          <Link
-            href="/vip"
-            style={{
-              margin: '24px 16px',
-              background: '#2A2A2A',
-              borderRadius: '12px',
-              padding: '16px',
-              display: 'block',
-              textDecoration: 'none',
-            }}
-          >
-            <div style={{ fontSize: '12px', color: '#7D7D7D', marginBottom: '8px' }}>VIP Level</div>
-            <div style={{ fontSize: '14px', fontWeight: '700', color: currentLevel.accent, marginBottom: '12px' }}>
+              const inner = (
+                <>
+                  <span className="shell-nav-icon">{item.icon}</span>
+                  <span className="shell-nav-label">{item.label}</span>
+                </>
+              );
+
+              if (item.href === '#') {
+                return (
+                  <div key={item.label} className={itemClass}>
+                    {inner}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={itemClass}
+                  onClick={closeSidebarOnMobile}
+                >
+                  {inner}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <Link href="/vip" className="vip-widget" onClick={closeSidebarOnMobile}>
+            <div className="vip-widget-label">VIP Level</div>
+            <div className="vip-widget-rank" style={{ color: currentLevel.accent }}>
               {currentLevel.emoji} {currentLevel.name}
             </div>
-            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-              {VIP_LEVELS.map((level) => (
-                <div
-                  key={level.id}
-                  style={{
-                    flex: 1,
-                    height: '6px',
-                    borderRadius: '3px',
-                    background: level.id <= currentLevel.id ? currentLevel.color : '#3A3A3A',
-                  }}
-                />
-              ))}
-            </div>
-            <div style={{ fontSize: '11px', color: '#7D7D7D' }}>
+            <CheeseProgress filledCount={currentLevel.id} total={VIP_LEVELS.length} />
+            <div className="vip-widget-xp">
               {vipProgress.next
                 ? `${DEMO_PLAYER_XP} / ${vipProgress.next.xpRequired} XP`
                 : `${DEMO_PLAYER_XP} XP · MAX`}
@@ -172,7 +168,7 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
           </Link>
         </aside>
 
-        <main style={{ flex: 1, padding: '32px' }}>{children}</main>
+        <main className="shell-main">{children}</main>
       </div>
     </div>
   );

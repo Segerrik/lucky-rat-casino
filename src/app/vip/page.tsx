@@ -10,6 +10,7 @@ import {
   getVipProgress,
   type VipLevel,
 } from '@/lib/vipLevels';
+import { CheeseProgress } from '@/components/CheeseProgress';
 
 function LevelCard({
   level,
@@ -145,7 +146,7 @@ export default function VipClubPage() {
 
   return (
     <CasinoShell>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div className="page-container">
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -248,25 +249,7 @@ export default function VipClubPage() {
                     </span>
                     <span style={{ color: '#BFC3C9', fontWeight: '600' }}>{progress.percent}%</span>
                   </div>
-                  <div
-                    style={{
-                      height: '10px',
-                      background: '#2A2A2A',
-                      borderRadius: '5px',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${progress.percent}%` }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
-                      style={{
-                        height: '100%',
-                        background: `linear-gradient(90deg, ${current.color}, ${progress.next.color})`,
-                        borderRadius: '5px',
-                      }}
-                    />
-                  </div>
+                  <CheeseProgress filledCount={current.id} total={VIP_LEVELS.length} />
                   <div style={{ fontSize: '12px', color: '#7D7D7D', marginTop: '8px' }}>
                     {progress.xpInTier.toLocaleString()} / {progress.xpNeeded.toLocaleString()} XP to next tier
                   </div>
@@ -321,14 +304,7 @@ export default function VipClubPage() {
             <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', marginBottom: '20px' }}>
               All Rat Ranks
             </h2>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                gap: '20px',
-                marginBottom: '40px',
-              }}
-            >
+            <div className="vip-cards-grid" style={{ marginBottom: '40px' }}>
               {VIP_LEVELS.map((level) => (
                 <LevelCard
                   key={level.id}

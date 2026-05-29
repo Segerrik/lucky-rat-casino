@@ -92,7 +92,7 @@ export default function CasinoPage() {
 
   return (
     <CasinoShell>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div className="page-container">
         <CasinoGamesSection
           categories={CASINO_GAME_CATEGORIES}
           selectedGameId={isConnected ? selectedGameId : null}
@@ -180,15 +180,7 @@ export default function CasinoPage() {
               </motion.div>
 
               {/* Tabs */}
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                marginBottom: '24px',
-                background: '#1E1E1E',
-                padding: '6px',
-                borderRadius: '14px',
-                border: '1px solid #2A2A2A',
-              }}>
+              <div className="casino-tabs">
                 {(['game', 'deposit', 'withdraw'] as const).map((tab) => (
                   <button
                     key={tab}
@@ -220,7 +212,7 @@ export default function CasinoPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
                   >
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                    <div className="casino-game-grid">
                       {/* Coin Flip Game */}
                       <div style={{
                         background: '#1E1E1E',

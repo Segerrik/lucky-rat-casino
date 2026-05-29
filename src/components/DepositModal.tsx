@@ -64,18 +64,8 @@ export function DepositModal({ open, onClose }: DepositModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="deposit-modal-panel"
             style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              margin: 'auto',
-              height: 'fit-content',
-              zIndex: 201,
-              width: 'min(440px, calc(100vw - 32px))',
-              maxHeight: 'calc(100vh - 32px)',
-              overflowY: 'auto',
               background: '#1E1E1E',
               border: '1px solid rgba(244, 197, 66, 0.4)',
               borderRadius: '20px',

@@ -13,7 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider theme={darkTheme({
-          accentColor: '#3DDC84',
+          accentColor: '#d4af37',
           accentColorForeground: '#121212',
           borderRadius: 'medium',
         })}>

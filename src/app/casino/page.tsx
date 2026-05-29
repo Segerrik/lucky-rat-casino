@@ -185,18 +185,9 @@ export default function CasinoPage() {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
+                    className={activeTab === tab ? 'tab-active' : ''}
                     style={{
-                      flex: 1,
-                      padding: '12px',
-                      borderRadius: '10px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      background: activeTab === tab ? '#3DDC84' : 'transparent',
-                      color: activeTab === tab ? '#121212' : '#7D7D7D',
-                      fontWeight: '700',
-                      fontSize: '14px',
                       textTransform: 'capitalize',
-                      transition: 'all 0.2s',
                     }}
                   >
                     {tab === 'game' ? '🎰 Play' : tab === 'deposit' ? '💰 Deposit' : '💸 Withdraw'}

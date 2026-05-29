@@ -1,13 +1,23 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 
-const inter = Inter({ subsets: ['latin'] });
+const display = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-display',
+});
+
+const sans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
+});
 
 export const metadata: Metadata = {
-  title: 'Lucky Rat Casino',
-  description: 'The luckiest rats play here',
+  title: 'Lucky Rat — Private Casino Club',
+  description: 'Where the sharpest rats play table games after dark.',
 };
 
 export default function RootLayout({
@@ -16,11 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: '#121212', margin: 0 }}>
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -16,12 +16,12 @@ import {
 import { CheeseProgress } from '@/components/CheeseProgress';
 
 const NAV_ITEMS = [
-  { icon: '🏠', label: 'Home', href: '/' },
-  { icon: '🎰', label: 'Casino', href: '/casino' },
-  { icon: '🎁', label: 'Promotions', href: '#' },
-  { icon: '👑', label: 'VIP Club', href: '/vip' },
-  { icon: '🎯', label: 'Missions', href: '#' },
-  { icon: '💼', label: 'Wallet', href: '#' },
+  { label: 'Home', href: '/' },
+  { label: 'Casino', href: '/casino' },
+  { label: 'Promotions', href: '#' },
+  { label: 'VIP Club', href: '/vip' },
+  { label: 'Missions', href: '#' },
+  { label: 'Wallet', href: '#' },
 ];
 
 function useIsMobile(breakpoint = 768) {
@@ -61,8 +61,8 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
   });
 
   const formattedBalance = playerBalance
-    ? parseFloat(formatEther(playerBalance)).toFixed(4)
-    : '0.0000';
+    ? parseFloat(formatEther(playerBalance)).toFixed(2)
+    : '0.00';
 
   const vipProgress = getVipProgress(DEMO_PLAYER_XP);
   const currentLevel = getVipLevelForXp(DEMO_PLAYER_XP);
@@ -71,6 +71,10 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
     'shell-sidebar',
     sidebarOpen ? 'shell-sidebar--open' : 'shell-sidebar--closed',
   ].join(' ');
+
+  const xpText = vipProgress.next
+    ? `${DEMO_PLAYER_XP.toLocaleString()} / ${vipProgress.next.xpRequired.toLocaleString()} XP to ${vipProgress.next.name.split(' ')[0]}`
+    : `${DEMO_PLAYER_XP.toLocaleString()} XP · MAX`;
 
   return (
     <div className="shell-root">
@@ -86,10 +90,10 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
             {sidebarOpen ? '✕' : '☰'}
           </button>
           <Link href="/" className="shell-logo" onClick={closeSidebarOnMobile}>
-            <span className="shell-logo-icon">🐀</span>
+            <span className="shell-logo-mark">LR</span>
             <div>
               <div className="shell-logo-title">Lucky Rat</div>
-              <div className="shell-logo-sub">Casino</div>
+              <div className="shell-logo-sub">Private Casino</div>
             </div>
           </Link>
         </div>
@@ -97,8 +101,7 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
         <div className="shell-header-right">
           {isConnected && (
             <div className="header-balance">
-              <span>🧀</span>
-              <span className="header-balance-amount">{formattedBalance} ETH</span>
+              <span className="header-balance-amount">{formattedBalance}Ξ</span>
             </div>
           )}
           <div className="connect-wrap">
@@ -126,17 +129,10 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
                   : item.href !== '#' && pathname.startsWith(item.href);
               const itemClass = `shell-nav-item ${isActive ? 'shell-nav-item--active' : ''}`;
 
-              const inner = (
-                <>
-                  <span className="shell-nav-icon">{item.icon}</span>
-                  <span className="shell-nav-label">{item.label}</span>
-                </>
-              );
-
               if (item.href === '#') {
                 return (
                   <div key={item.label} className={itemClass}>
-                    {inner}
+                    {item.label}
                   </div>
                 );
               }
@@ -148,23 +144,17 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
                   className={itemClass}
                   onClick={closeSidebarOnMobile}
                 >
-                  {inner}
+                  {item.label}
                 </Link>
               );
             })}
           </nav>
 
           <Link href="/vip" className="vip-widget" onClick={closeSidebarOnMobile}>
-            <div className="vip-widget-label">VIP Level</div>
-            <div className="vip-widget-rank" style={{ color: currentLevel.accent }}>
-              {currentLevel.emoji} {currentLevel.name}
-            </div>
+            <div className="vip-widget-label">VIP Tier</div>
+            <div className="vip-widget-rank">{currentLevel.name}</div>
             <CheeseProgress filledCount={currentLevel.id} total={VIP_LEVELS.length} />
-            <div className="vip-widget-xp">
-              {vipProgress.next
-                ? `${DEMO_PLAYER_XP} / ${vipProgress.next.xpRequired} XP`
-                : `${DEMO_PLAYER_XP} XP · MAX`}
-            </div>
+            <div className="vip-widget-xp">{xpText}</div>
           </Link>
         </aside>
 

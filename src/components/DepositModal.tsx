@@ -120,7 +120,7 @@ export function DepositModal({ open, onClose }: DepositModalProps) {
                   }}
                 >
                   <span style={{ fontSize: '13px', color: '#7D7D7D' }}>Casino balance</span>
-                  <span style={{ fontSize: '18px', fontWeight: '800', color: '#3DDC84' }}>
+                  <span style={{ fontSize: '18px', fontWeight: '800', color: 'var(--color-gold)' }}>
                     {formattedBalance} ETH
                   </span>
                 </div>
@@ -175,7 +175,7 @@ export function DepositModal({ open, onClose }: DepositModalProps) {
                       padding: '12px',
                       background: 'rgba(61, 220, 132, 0.1)',
                       borderRadius: '10px',
-                      color: '#3DDC84',
+                      color: 'var(--color-live)',
                       fontSize: '13px',
                       textAlign: 'center',
                     }}

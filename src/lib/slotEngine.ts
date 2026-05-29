@@ -26,12 +26,22 @@ export interface WinLine {
   multiplier: number;
 }
 
+export type WinTier = 'none' | 'win' | 'big' | 'mega';
+
 export interface SpinResult {
   grid: SlotGrid;
   winLines: WinLine[];
   totalMultiplier: number;
   payoutEth: number;
   isBigWin: boolean;
+  winTier: WinTier;
+}
+
+export function getWinTier(totalMultiplier: number): WinTier {
+  if (totalMultiplier <= 0) return 'none';
+  if (totalMultiplier >= 15) return 'mega';
+  if (totalMultiplier >= 7) return 'big';
+  return 'win';
 }
 
 function pickWeighted(rng: () => number): SlotSymbol {
@@ -84,9 +94,10 @@ export function spinSlot(betEth: number, rng: () => number = Math.random): SpinR
   }
 
   const payoutEth = betEth * totalMultiplier;
-  const isBigWin = winLines.some((l) => l.multiplier >= 7);
+  const winTier = getWinTier(totalMultiplier);
+  const isBigWin = winTier === 'big' || winTier === 'mega';
 
-  return { grid, winLines, totalMultiplier, payoutEth, isBigWin };
+  return { grid, winLines, totalMultiplier, payoutEth, isBigWin, winTier };
 }
 
 export function buildWinningGrid(symbol: SlotSymbol, row = 1): SlotGrid {
@@ -110,15 +121,24 @@ export function gridForOutcome(won: boolean, betEth: number): SpinResult {
     const symbol = SLOT_SYMBOLS[Math.floor(Math.random() * 3)];
     const grid = buildWinningGrid(symbol, 1);
     const winLines = evaluateGrid(grid);
-    const totalMultiplier = winLines.reduce((s, l) => s + l.multiplier, 0);
+    const totalMult = winLines.reduce((s, l) => s + l.multiplier, 0);
+    const winTier = getWinTier(totalMult);
     return {
       grid,
       winLines,
-      totalMultiplier,
-      payoutEth: betEth * totalMultiplier,
-      isBigWin: totalMultiplier >= 7,
+      totalMultiplier: totalMult,
+      payoutEth: betEth * totalMult,
+      isBigWin: winTier === 'big' || winTier === 'mega',
+      winTier,
     };
   }
   const grid = buildLosingGrid();
-  return { grid, winLines: [], totalMultiplier: 0, payoutEth: 0, isBigWin: false };
+  return {
+    grid,
+    winLines: [],
+    totalMultiplier: 0,
+    payoutEth: 0,
+    isBigWin: false,
+    winTier: 'none',
+  };
 }

@@ -20,6 +20,7 @@ import { NavIcon } from '@/components/NavIcon';
 const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
   { label: 'Casino', href: '/casino', icon: 'casino' },
+  { label: '🎰 Slots', href: '/slots', icon: 'slots' },
   { label: 'Promotions', href: '#', icon: 'promotions' },
   { label: 'VIP Club', href: '/vip', icon: 'vip' },
   { label: 'Missions', href: '#', icon: 'missions' },
@@ -40,7 +41,13 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-export function CasinoShell({ children }: { children: React.ReactNode }) {
+export function CasinoShell({
+  children,
+  mainClassName,
+}: {
+  children: React.ReactNode;
+  mainClassName?: string;
+}) {
   const pathname = usePathname();
   const { address, isConnected } = useAccount();
   const isMobile = useIsMobile();
@@ -176,7 +183,7 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
           </Link>
         </aside>
 
-        <main className="shell-main">{children}</main>
+        <main className={['shell-main', mainClassName].filter(Boolean).join(' ')}>{children}</main>
       </div>
     </div>
   );

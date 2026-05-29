@@ -9,12 +9,11 @@ import { CASINO_ADDRESS, CASINO_ABI } from '@/lib/wagmi';
 import { CasinoShell } from '@/components/CasinoShell';
 import { CasinoGamesSection } from '@/components/CasinoGamesSection';
 import { CASINO_GAME_CATEGORIES, type CasinoGame } from '@/lib/casinoGames';
-import { PrivateClubSlot } from '@/components/PrivateClubSlot';
 
 type CoinSide = 0 | 1;
 
 type GamePhase = 'idle' | 'betting' | 'flipping' | 'result';
-type CasinoTab = 'game' | 'slots' | 'deposit' | 'withdraw';
+type CasinoTab = 'game' | 'deposit' | 'withdraw';
 type PendingAction = 'coin' | 'deposit' | 'withdraw' | null;
 
 export default function CasinoPage() {
@@ -192,7 +191,6 @@ export default function CasinoPage() {
                 {(
                   [
                     { id: 'game' as const, label: '🎰 Play' },
-                    { id: 'slots' as const, label: '🎰 Slots' },
                     { id: 'deposit' as const, label: '💰 Deposit' },
                     { id: 'withdraw' as const, label: '💸 Withdraw' },
                   ] as const
@@ -208,17 +206,6 @@ export default function CasinoPage() {
               </div>
 
               <AnimatePresence mode="wait">
-                {activeTab === 'slots' && (
-                  <motion.div
-                    key="slots"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                  >
-                    <PrivateClubSlot />
-                  </motion.div>
-                )}
-
                 {activeTab === 'game' && selectedGameId === 'coin-flip' && (
                   <motion.div
                     key="game"

@@ -57,6 +57,13 @@ export function NavIcon({ name }: { name: string }) {
         <path d="M3 9h18" />
       </svg>
     ),
+    slots: (
+      <svg {...iconProps}>
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <path d="M8 8v8M12 8v8M16 8v8" />
+        <path d="M4 12h16" />
+      </svg>
+    ),
   };
 
   return <span className="shell-nav-icon">{icons[name] ?? null}</span>;

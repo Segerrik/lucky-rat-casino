@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useReadContract } from 'wagmi';
@@ -14,15 +15,16 @@ import {
   VIP_LEVELS,
 } from '@/lib/vipLevels';
 import { CheeseProgress } from '@/components/CheeseProgress';
+import { NavIcon } from '@/components/NavIcon';
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '/' },
-  { label: 'Casino', href: '/casino' },
-  { label: 'Promotions', href: '#' },
-  { label: 'VIP Club', href: '/vip' },
-  { label: 'Missions', href: '#' },
-  { label: 'Wallet', href: '#' },
-];
+  { label: 'Home', href: '/', icon: 'home' },
+  { label: 'Casino', href: '/casino', icon: 'casino' },
+  { label: 'Promotions', href: '#', icon: 'promotions' },
+  { label: 'VIP Club', href: '/vip', icon: 'vip' },
+  { label: 'Missions', href: '#', icon: 'missions' },
+  { label: 'Wallet', href: '#', icon: 'wallet' },
+] as const;
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false);
@@ -72,6 +74,9 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
     sidebarOpen ? 'shell-sidebar--open' : 'shell-sidebar--closed',
   ].join(' ');
 
+  const completedTiers = vipProgress.next ? currentLevel.id - 1 : VIP_LEVELS.length;
+  const tierProgress = vipProgress.next ? vipProgress.percent : 0;
+
   const xpText = vipProgress.next
     ? `${DEMO_PLAYER_XP.toLocaleString()} / ${vipProgress.next.xpRequired.toLocaleString()} XP to ${vipProgress.next.name.split(' ')[0]}`
     : `${DEMO_PLAYER_XP.toLocaleString()} XP · MAX`;
@@ -90,7 +95,14 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
             {sidebarOpen ? '✕' : '☰'}
           </button>
           <Link href="/" className="shell-logo" onClick={closeSidebarOnMobile}>
-            <span className="shell-logo-mark">LR</span>
+            <Image
+              src="/branding/rat-logo.png"
+              alt="Lucky Rat"
+              width={44}
+              height={44}
+              className="shell-logo-img"
+              priority
+            />
             <div>
               <div className="shell-logo-title">Lucky Rat</div>
               <div className="shell-logo-sub">Private Casino</div>
@@ -132,7 +144,8 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
               if (item.href === '#') {
                 return (
                   <div key={item.label} className={itemClass}>
-                    {item.label}
+                    <NavIcon name={item.icon} />
+                    <span className="shell-nav-label">{item.label}</span>
                   </div>
                 );
               }
@@ -144,7 +157,8 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
                   className={itemClass}
                   onClick={closeSidebarOnMobile}
                 >
-                  {item.label}
+                  <NavIcon name={item.icon} />
+                  <span className="shell-nav-label">{item.label}</span>
                 </Link>
               );
             })}
@@ -153,7 +167,11 @@ export function CasinoShell({ children }: { children: React.ReactNode }) {
           <Link href="/vip" className="vip-widget" onClick={closeSidebarOnMobile}>
             <div className="vip-widget-label">VIP Tier</div>
             <div className="vip-widget-rank">{currentLevel.name}</div>
-            <CheeseProgress filledCount={currentLevel.id} total={VIP_LEVELS.length} />
+            <CheeseProgress
+              filledCount={completedTiers}
+              partialPercent={tierProgress}
+              total={VIP_LEVELS.length}
+            />
             <div className="vip-widget-xp">{xpText}</div>
           </Link>
         </aside>

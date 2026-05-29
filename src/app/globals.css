@@ -13,19 +13,23 @@
   --sidebar-width: 240px;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
-  --color-bg: #0c0a09;
-  --color-bg-elevated: #141110;
-  --color-surface: #1a1614;
-  --color-surface-2: #231f1c;
-  --color-border: rgba(212, 175, 55, 0.12);
-  --color-border-strong: rgba(212, 175, 55, 0.28);
-  --color-gold: #d4af37;
-  --color-gold-light: #f4e4bc;
-  --color-gold-muted: rgba(212, 175, 55, 0.65);
-  --color-cream: #e8e0d5;
-  --color-muted: #9a8f82;
-  --color-accent: #c9a227;
+  --color-bg: #0a0908;
+  --color-bg-elevated: #12100e;
+  --color-surface: #171412;
+  --color-surface-2: #1f1b17;
+  --color-border: rgba(253, 184, 19, 0.1);
+  --color-border-strong: rgba(253, 184, 19, 0.22);
+  --color-gold: #fdb813;
+  --color-gold-bright: #ffc107;
+  --color-gold-light: #f5deb8;
+  --color-gold-muted: rgba(253, 184, 19, 0.55);
+  --color-gold-dim: #8b6914;
+  --color-cream: #ece6dc;
+  --color-muted: #8b8075;
+  --color-muted-dark: #5c534a;
+  --color-accent: #e6a800;
   --color-live: #4ade80;
+  --color-cheese-empty: #2a2520;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -76,9 +80,9 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #e8c547 0%, #c9a227 50%, #a67c00 100%);
+  background: linear-gradient(135deg, #ffc107 0%, #fdb813 45%, #e6a800 100%);
   color: #1a1208;
-  box-shadow: 0 8px 24px rgba(201, 162, 39, 0.35);
+  box-shadow: 0 8px 24px rgba(253, 184, 19, 0.28);
 }
 
 .btn-primary:hover {
@@ -116,28 +120,28 @@ body {
 /* ——— Cheese VIP progress ——— */
 .cheese-progress {
   display: flex;
-  gap: 6px;
-  justify-content: space-between;
-  align-items: center;
+  gap: 4px;
+  align-items: flex-end;
+  justify-content: flex-start;
   margin-bottom: 10px;
 }
 
-.cheese-piece {
+.cheese-wedge {
+  flex-shrink: 0;
   display: block;
-  flex: 1;
-  height: 18px;
-  max-width: 30px;
-  background: linear-gradient(145deg, #5d4e37 0%, #3d3428 100%);
-  clip-path: polygon(8% 0%, 92% 0%, 100% 55%, 50% 100%, 0% 55%);
-  opacity: 0.35;
-  transition: opacity 0.2s, transform 0.2s;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
 }
 
-.cheese-piece--active {
-  background: linear-gradient(145deg, #fff176 0%, #ffd54f 35%, #d4af37 100%);
-  opacity: 1;
-  filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.4));
-  transform: scale(1.05);
+.cheese-wedge--filled {
+  filter: drop-shadow(0 2px 4px rgba(255, 193, 7, 0.35));
+}
+
+.cheese-wedge--partial {
+  filter: drop-shadow(0 1px 2px rgba(139, 105, 20, 0.25));
+}
+
+.cheese-wedge--empty {
+  opacity: 0.85;
 }
 
 /* ——— App shell ——— */
@@ -145,8 +149,8 @@ body {
   min-height: 100vh;
   background: var(--color-bg);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(212, 175, 55, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(74, 0, 0, 0.15), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(253, 184, 19, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(60, 30, 10, 0.2), transparent);
 }
 
 .shell-header {
@@ -154,7 +158,7 @@ body {
   top: 0;
   z-index: 100;
   height: var(--header-height);
-  background: rgba(12, 10, 9, 0.85);
+  background: rgba(10, 9, 8, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
   padding: 0 16px;
@@ -204,19 +208,13 @@ body {
   min-width: 0;
 }
 
-.shell-logo-mark {
-  width: 40px;
-  height: 40px;
+.shell-logo-img {
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #d4af37 0%, #8b6914 100%);
-  color: #1a1208;
-  font-weight: 800;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: -0.5px;
+  object-fit: cover;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
 .shell-logo-title {
@@ -266,7 +264,7 @@ body {
 .shell-sidebar {
   width: var(--sidebar-width);
   flex-shrink: 0;
-  background: rgba(20, 17, 16, 0.95);
+  background: var(--color-bg-elevated);
   border-right: 1px solid var(--color-border);
   padding: 20px 0;
   display: flex;
@@ -285,8 +283,10 @@ body {
 }
 
 .shell-nav-item {
-  display: block;
-  padding: 11px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 20px;
   color: var(--color-muted);
   text-decoration: none;
   font-size: 14px;
@@ -297,9 +297,23 @@ body {
 }
 
 .shell-nav-item--active {
-  color: var(--color-gold-light);
-  background: rgba(212, 175, 55, 0.08);
+  color: var(--color-gold-bright);
+  background: rgba(253, 184, 19, 0.07);
   border-left-color: var(--color-gold);
+}
+
+.shell-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-muted-dark);
+}
+
+.shell-nav-item--active .shell-nav-icon {
+  color: var(--color-gold);
 }
 
 a.shell-nav-item {
@@ -334,7 +348,7 @@ a.shell-nav-item {
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 600;
-  color: var(--color-gold-light);
+  color: var(--color-gold-bright);
   margin-bottom: 12px;
 }
 
@@ -416,7 +430,7 @@ a.shell-nav-item {
 }
 
 .hero-title-line--accent {
-  color: var(--color-gold);
+  color: var(--color-gold-bright);
   font-style: italic;
 }
 
@@ -455,7 +469,7 @@ a.shell-nav-item {
 }
 
 .stat-card--highlight {
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, var(--color-surface) 100%);
+  background: linear-gradient(145deg, rgba(253, 184, 19, 0.1) 0%, var(--color-surface) 100%);
   border-color: var(--color-border-strong);
 }
 
@@ -695,7 +709,7 @@ a.shell-nav-item {
 }
 
 .casino-tabs button.tab-active {
-  background: linear-gradient(135deg, #e8c547, #c9a227);
+  background: linear-gradient(135deg, #ffc107, #fdb813);
   color: #1a1208;
 }
 

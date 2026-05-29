@@ -249,7 +249,11 @@ export default function VipClubPage() {
                     </span>
                     <span style={{ color: '#BFC3C9', fontWeight: '600' }}>{progress.percent}%</span>
                   </div>
-                  <CheeseProgress filledCount={current.id} total={VIP_LEVELS.length} />
+                  <CheeseProgress
+                    filledCount={progress.next ? current.id - 1 : VIP_LEVELS.length}
+                    partialPercent={progress.next ? progress.percent : 0}
+                    total={VIP_LEVELS.length}
+                  />
                   <div style={{ fontSize: '12px', color: '#7D7D7D', marginTop: '8px' }}>
                     {progress.xpInTier.toLocaleString()} / {progress.xpNeeded.toLocaleString()} XP to next tier
                   </div>

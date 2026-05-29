@@ -14,8 +14,8 @@ import {
 } from '@/lib/vipLevels';
 
 const NAV_ITEMS = [
-  { icon: '🎰', label: 'Casino', href: '/' },
-  { icon: '🎮', label: 'Live Casino', href: '#' },
+  { icon: '🏠', label: 'Home', href: '/' },
+  { icon: '🎰', label: 'Casino', href: '/casino' },
   { icon: '🎁', label: 'Promotions', href: '#' },
   { icon: '👑', label: 'VIP Club', href: '/vip' },
   { icon: '🎯', label: 'Missions', href: '#' },

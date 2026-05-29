@@ -1,3 +1,11 @@
+export type GameCategory =
+  | 'popular'
+  | 'hot'
+  | 'originals'
+  | 'new-releases'
+  | 'high-roller'
+  | 'jackpots';
+
 export interface CasinoGame {
   id: string;
   title: string;
@@ -5,14 +13,21 @@ export interface CasinoGame {
   emoji: string;
   gradient: string;
   titleColor: string;
-  category: 'popular' | 'hot' | 'originals';
+  category: GameCategory;
   available: boolean;
 }
 
-export const CASINO_GAME_CATEGORIES = [
-  { id: 'popular' as const, label: 'Popular' },
-  { id: 'hot' as const, label: 'Hot Slots' },
-  { id: 'originals' as const, label: 'Lucky Rat Originals' },
+export const HOME_PAGE_CATEGORIES: { id: GameCategory; label: string }[] = [
+  { id: 'popular', label: 'Popular' },
+  { id: 'new-releases', label: 'New Releases' },
+  { id: 'high-roller', label: 'High Roller Lounge' },
+  { id: 'jackpots', label: 'Mega Jackpots' },
+];
+
+export const CASINO_GAME_CATEGORIES: { id: GameCategory; label: string }[] = [
+  { id: 'popular', label: 'Popular' },
+  { id: 'hot', label: 'Hot Slots' },
+  { id: 'originals', label: 'Lucky Rat Originals' },
 ];
 
 export const CASINO_GAMES: CasinoGame[] = [
@@ -54,6 +69,136 @@ export const CASINO_GAMES: CasinoGame[] = [
     gradient: 'linear-gradient(160deg, #4e342e 0%, #8d6e63 40%, #ffd54f 100%)',
     titleColor: '#FFE082',
     category: 'popular',
+    available: false,
+  },
+  {
+    id: 'lucky-dice',
+    title: 'LUCKY RAT DICE',
+    provider: 'LUCKY RAT',
+    emoji: '🎲',
+    gradient: 'linear-gradient(160deg, #37474f 0%, #546e7a 50%, #ffeb3b 100%)',
+    titleColor: '#FFF59D',
+    category: 'popular',
+    available: false,
+  },
+  {
+    id: 'neon-rat',
+    title: 'NEON RAT NIGHT',
+    provider: 'LUCKY RAT',
+    emoji: '🌃',
+    gradient: 'linear-gradient(160deg, #4a148c 0%, #7b1fa2 50%, #00e5ff 100%)',
+    titleColor: '#E1BEE7',
+    category: 'new-releases',
+    available: false,
+  },
+  {
+    id: 'vault-raiders',
+    title: 'VAULT RAIDERS',
+    provider: 'PRAGMATIC',
+    emoji: '🔐',
+    gradient: 'linear-gradient(160deg, #263238 0%, #455a64 50%, #ffd54f 100%)',
+    titleColor: '#FFD54F',
+    category: 'new-releases',
+    available: false,
+  },
+  {
+    id: 'golden-tunnel',
+    title: 'GOLDEN TUNNEL',
+    provider: 'BOOONGO',
+    emoji: '🚇',
+    gradient: 'linear-gradient(160deg, #e65100 0%, #ff8f00 50%, #fff176 100%)',
+    titleColor: '#FFF9C4',
+    category: 'new-releases',
+    available: false,
+  },
+  {
+    id: 'cheese-storm',
+    title: 'CHEESE STORM',
+    provider: 'PLAYSON',
+    emoji: '🧀',
+    gradient: 'linear-gradient(160deg, #f57f17 0%, #ffca28 50%, #fffde7 100%)',
+    titleColor: '#FFF8E1',
+    category: 'new-releases',
+    available: false,
+  },
+  {
+    id: 'platinum-roulette',
+    title: 'PLATINUM ROULETTE',
+    provider: 'EVOLUTION',
+    emoji: '🎡',
+    gradient: 'linear-gradient(160deg, #212121 0%, #424242 50%, #e0e0e0 100%)',
+    titleColor: '#FAFAFA',
+    category: 'high-roller',
+    available: false,
+  },
+  {
+    id: 'diamond-blackjack',
+    title: 'DIAMOND BLACKJACK',
+    provider: 'EVOLUTION',
+    emoji: '♠️',
+    gradient: 'linear-gradient(160deg, #0d47a1 0%, #1565c0 50%, #b3e5fc 100%)',
+    titleColor: '#E3F2FD',
+    category: 'high-roller',
+    available: false,
+  },
+  {
+    id: 'vip-baccarat',
+    title: 'VIP BACCARAT',
+    provider: 'PRAGMATIC',
+    emoji: '🎴',
+    gradient: 'linear-gradient(160deg, #1b0000 0%, #4a0000 50%, #ffd700 100%)',
+    titleColor: '#FFD700',
+    category: 'high-roller',
+    available: false,
+  },
+  {
+    id: 'whale-wheel',
+    title: 'WHALE WHEEL',
+    provider: 'LUCKY RAT',
+    emoji: '🎡',
+    gradient: 'linear-gradient(160deg, #004d40 0%, #00695c 50%, #a7ffeb 100%)',
+    titleColor: '#A7FFEB',
+    category: 'high-roller',
+    available: false,
+  },
+  {
+    id: 'mega-cheese',
+    title: 'MEGA CHEESE POT',
+    provider: 'LUCKY RAT',
+    emoji: '🧀',
+    gradient: 'linear-gradient(160deg, #ff6f00 0%, #ffab00 50%, #fff59d 100%)',
+    titleColor: '#FFFDE7',
+    category: 'jackpots',
+    available: false,
+  },
+  {
+    id: 'sewer-millions',
+    title: 'SEWER MILLIONS',
+    provider: 'BOOONGO',
+    emoji: '💰',
+    gradient: 'linear-gradient(160deg, #1b5e20 0%, #388e3c 50%, #ffeb3b 100%)',
+    titleColor: '#C8E6C9',
+    category: 'jackpots',
+    available: false,
+  },
+  {
+    id: 'rat-king-jackpot',
+    title: 'RAT KING JACKPOT',
+    provider: 'LUCKY RAT',
+    emoji: '👑',
+    gradient: 'linear-gradient(160deg, #4a148c 0%, #7b1fa2 50%, #ffd54f 100%)',
+    titleColor: '#EA80FC',
+    category: 'jackpots',
+    available: false,
+  },
+  {
+    id: 'gold-rush-xl',
+    title: 'GOLD RUSH XL',
+    provider: 'PLAYSON',
+    emoji: '⛏️',
+    gradient: 'linear-gradient(160deg, #bf360c 0%, #e64a19 50%, #ffeb3b 100%)',
+    titleColor: '#FFEB3B',
+    category: 'jackpots',
     available: false,
   },
   {
@@ -138,6 +283,6 @@ export const CASINO_GAMES: CasinoGame[] = [
   },
 ];
 
-export function getGamesByCategory(category: CasinoGame['category']) {
+export function getGamesByCategory(category: GameCategory) {
   return CASINO_GAMES.filter((g) => g.category === category);
 }

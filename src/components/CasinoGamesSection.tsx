@@ -1,21 +1,31 @@
 'use client';
 
 import {
-  CASINO_GAME_CATEGORIES,
   getGamesByCategory,
   type CasinoGame,
+  type GameCategory,
 } from '@/lib/casinoGames';
 import { SlotGameCard } from '@/components/SlotGameCard';
 
+interface CategoryConfig {
+  id: GameCategory;
+  label: string;
+}
+
 interface CasinoGamesSectionProps {
+  categories: CategoryConfig[];
   selectedGameId?: string | null;
   onSelectGame?: (game: CasinoGame) => void;
 }
 
-export function CasinoGamesSection({ selectedGameId, onSelectGame }: CasinoGamesSectionProps) {
+export function CasinoGamesSection({
+  categories,
+  selectedGameId,
+  onSelectGame,
+}: CasinoGamesSectionProps) {
   return (
     <div style={{ marginBottom: '32px' }}>
-      {CASINO_GAME_CATEGORIES.map((category) => {
+      {categories.map((category) => {
         const games = getGamesByCategory(category.id);
         if (games.length === 0) return null;
 
